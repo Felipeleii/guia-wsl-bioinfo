@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://felipeleii.github.io/guia-wsl-bioinfo/sitemap.xml

@@ -3,48 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guia completo: WSL ➜ Bioinfo (AMRFinderPlus, abritAMR, SPAdes/plasmidSPAdes) ➜ plasmid-screen</title>
-  <meta name="description" content="Passo a passo completo com botões de copiar: WSL2, Ubuntu, Conda, AMRFinderPlus/abritAMR, SPAdes/plasmidSPAdes e plasmid-screen.">
-  <!-- Favicon & OG -->
-  <link rel="icon" href="favicon.ico">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <meta property="og:title" content="Guia WSL ➜ Bioinfo (AMRFinderPlus, abritAMR, SPAdes, plasmid-screen)">
-  <meta property="og:description" content="Passo a passo completo com botões de copiar: WSL2, Ubuntu, Conda, AMRFinderPlus/abritAMR, SPAdes/plasmidSPAdes e plasmid-screen.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://felipeleii.github.io/guia-wsl-bioinfo/">
-  <meta property="og:image" content="thumbnail.png">
-  <meta name="twitter:card" content="summary_large_image">
+  <title>Guia completo: WSL ➜ Bioinfo (abritAMR, AMRFinderPlus, SPAdes/plasmidSPAdes) ➜ plasmid-screen</title>
   <style>
-    @media print {
-      .copy-btn, nav { display:none !important; }
-      a[href]:after { content: ""; }
-      body { background: #fff; color: #000; }
+    :root{
+      --bg:#0b0f17; --panel:#0e1624; --text:#e5e7eb; --muted:#9ca3af; --brand:#60a5fa; --brand2:#34d399; --border:#1f2937; --code:#0a1220; --accent:#a78bfa
     }
-    :root{ --bg:#0b0f17; --panel:#0e1624; --text:#e5e7eb; --muted:#9ca3af; --brand:#60a5fa; --brand2:#34d399; --border:#1f2937; --code:#0a1220; --accent:#a78bfa }
-    *{box-sizing:border-box} html,body{height:100%}
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial; color:var(--text);
-      background: radial-gradient(1200px 800px at 80% -10%, rgba(96,165,250,.10), transparent 60%),
-                 radial-gradient(1000px 600px at 0% 110%, rgba(52,211,153,.10), transparent 60%), var(--bg)}
+      background:
+        radial-gradient(1200px 800px at 80% -10%, rgba(96,165,250,.10), transparent 60%),
+        radial-gradient(1000px 600px at 0% 110%, rgba(52,211,153,.10), transparent 60%),
+        var(--bg)}
     header{position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:rgba(11,15,23,.7);border-bottom:1px solid var(--border)}
-    .wrap{max-width:1100px;margin:0 auto;padding:16px 20px} h1{font-size:22px;margin:0} .muted{color:var(--muted)}
-    main{padding:20px} .container{max-width:1100px;margin:0 auto}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 20px}
+    h1{font-size:22px;margin:0}
+    .muted{color:var(--muted)}
+    main{padding:20px}
+    .container{max-width:1100px;margin:0 auto}
     nav{position:sticky;top:66px;background:rgba(14,22,36,.65);border:1px solid var(--border);border-radius:14px;padding:10px;margin-bottom:16px}
     nav a{color:var(--brand);text-decoration:none;margin-right:12px;display:inline-block;padding:6px 10px;border-radius:8px;border:1px solid transparent}
     nav a:hover{border-color:#23314b;background:#0a1220}
     .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.00));border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0 22px;box-shadow:0 12px 28px rgba(0,0,0,.25)}
-    .card h2{margin:6px 0 10px;font-size:20px} .card h3{margin:8px 0 8px;font-size:16px;color:#dbeafe}
+    .card h2{margin:6px 0 10px;font-size:20px}
+    .card h3{margin:8px 0 8px;font-size:16px;color:#dbeafe}
     .card p{color:var(--muted);margin:6px 0 12px}
-    .grid{display:grid;gap:14px} @media(min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .grid{display:grid;gap:14px}
+    @media(min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
     .code{position:relative;border:1px solid #1c2740;background:linear-gradient(180deg,#0a1220,#0b1323);border-radius:12px;padding:12px 12px 10px;margin-top:10px;overflow:auto}
-    pre{margin:0;white-space:pre-wrap} code{color:#e7edf9;font-size:14px;line-height:1.55;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,"Liberation Mono","Courier New",monospace}
+    pre{margin:0;white-space:pre-wrap}
+    code{color:#e7edf9;font-size:14px;line-height:1.55;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,"Liberation Mono","Courier New",monospace}
     .copy-btn{position:absolute;top:8px;right:8px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:#0f172a;color:var(--text);cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:.15s}
     .copy-btn:hover{transform:translateY(-1px);border-color:#2b3952}
+
     .tip{display:flex;gap:10px;align-items:flex-start;background:#0a1220;border:1px dashed #26334f;padding:10px;border-radius:12px;color:#c7d2fe}
-    .ok{color:#86efac} .warn{color:#fca5a5} .kbd{padding:2px 6px;border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;background:#0e1522;color:var(--text);font-family:ui-monospace,Menlo,Consolas,monospace}
+    .ok{color:#86efac}
+    .warn{color:#fca5a5}
+    .kbd{padding:2px 6px;border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;background:#0e1522;color:var(--text);font-family:ui-monospace,Menlo,Consolas,monospace}
     footer{color:var(--muted);text-align:center;padding:30px 10px;border-top:1px solid var(--border);margin-top:24px}
-    .actions {display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;}
-    .btn {padding:8px 12px;border:1px solid #334;border-radius:8px;background:#0f172a;color:#e5e7eb;text-decoration:none;cursor:pointer}
-    .btn:hover {opacity:.9}
   </style>
 </head>
 <body>
@@ -52,10 +49,6 @@
     <div class="wrap">
       <h1>Guia completo: do WSL ao <span style="color:var(--brand2)">plasmid-screen</span></h1>
       <div class="muted">Windows 11 ➜ WSL2 + Ubuntu ➜ Conda ➜ AMRFinderPlus + abritAMR ➜ SPAdes/plasmidSPAdes ➜ plasmid-screen. Tudo com botões de copiar.</div>
-      <div class="actions">
-        <a class="btn" href="index.html" download>⬇️ Baixar HTML</a>
-        <button class="btn" onclick="window.print()">🖨️ Imprimir / Salvar em PDF</button>
-      </div>
     </div>
   </header>
 
@@ -77,10 +70,7 @@
       <section id="wsl" class="card">
         <h2>1) Instalar e verificar o WSL2 + Ubuntu 24.04</h2>
         <p>Execute no Windows PowerShell (Administrador):</p>
-        <div class="code" data-copy="wsl --install -d Ubuntu-24.04
-wsl --set-default-version 2
-wsl --update
-wsl --status">
+        <div class="code" data-copy="wsl --install -d Ubuntu-24.04\nwsl --set-default-version 2\nwsl --update\nwsl --status">
           <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
           <pre><code>wsl --install -d Ubuntu-24.04
 wsl --set-default-version 2
@@ -108,13 +98,7 @@ wsl --status</code></pre>
           <pre><code>sudo nano /etc/wsl.conf</code></pre>
         </div>
         <p>Conteúdo recomendado:</p>
-        <div class="code" data-copy="[boot]
-systemd=true
-
-[automount]
-enabled=true
-root = /mnt/
-options = &quot;metadata,umask=22,fmask=11,uid=1000,gid=1000&quot;">
+        <div class="code" data-copy="[boot]\nsystemd=true\n\n[automount]\nenabled=true\nroot = /mnt/\noptions = \&quot;metadata,umask=22,fmask=11,uid=1000,gid=1000\&quot;">
           <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
           <pre><code>[boot]
 systemd=true
@@ -125,14 +109,7 @@ root = /mnt/
 options = &quot;metadata,umask=22,fmask=11,uid=1000,gid=1000&quot;</code></pre>
         </div>
         <div class="tip"><span>💡</span><span>Se der <span class="warn">Permission denied</span> ao salvar no <span class="kbd">nano</span>, certifique-se que abriu com <span class="kbd">sudo</span>. Alternativa: <span class="kbd">sudo tee</span>:</span></div>
-        <div class="code" data-copy='printf "[boot]
-systemd=true
-
-[automount]
-enabled=true
-root=/mnt/
-options="metadata,umask=22,fmask=11,uid=1000,gid=1000"
-" | sudo tee /etc/wsl.conf'>
+        <div class="code" data-copy='printf "[boot]\nsystemd=true\n\n[automount]\nenabled=true\nroot=/mnt/\noptions=\"metadata,umask=22,fmask=11,uid=1000,gid=1000\"\n" | sudo tee /etc/wsl.conf'>
           <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
           <pre><code>printf "[boot]
 systemd=true
@@ -140,7 +117,7 @@ systemd=true
 [automount]
 enabled=true
 root=/mnt/
-options="metadata,umask=22,fmask=11,uid=1000,gid=1000"
+options=\"metadata,umask=22,fmask=11,uid=1000,gid=1000\"
 " | sudo tee /etc/wsl.conf</code></pre>
         </div>
         <p>Reinicie o WSL:</p>
@@ -156,10 +133,7 @@ options="metadata,umask=22,fmask=11,uid=1000,gid=1000"
         <div class="grid">
           <div>
             <h3>Instalar Miniforge</h3>
-            <div class="code" data-copy="wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-bash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge3
-$HOME/miniforge3/bin/conda init bash
-exec bash">
+            <div class="code" data-copy="wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh\nbash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge3\n$HOME/miniforge3/bin/conda init bash\nexec bash">
               <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
               <pre><code>wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 bash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge3
@@ -167,10 +141,7 @@ $HOME/miniforge3/bin/conda init bash
 exec bash</code></pre>
             </div>
             <p>Se preferir, instale Miniconda (similar):</p>
-            <div class="code" data-copy="wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-conda init bash
-exec bash">
+            <div class="code" data-copy="wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh\nbash Miniconda3-latest-Linux-x86_64.sh\nconda init bash\nexec bash">
               <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
               <pre><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
@@ -211,11 +182,7 @@ exec bash</code></pre>
         <div class="grid">
           <div>
             <h3>Criar ambiente e instalar</h3>
-            <div class="code" data-copy="conda config --add channels conda-forge
-conda config --add channels bioconda
-conda create -n abritamr python=3.12 -y
-conda activate abritamr
-conda install -c bioconda -c conda-forge abritamr ncbi-amrfinderplus=3.12.8 blast parallel -y">
+            <div class="code" data-copy="conda config --add channels conda-forge\nconda config --add channels bioconda\nconda create -n abritamr python=3.12 -y\nconda activate abritamr\nconda install -c bioconda -c conda-forge abritamr ncbi-amrfinderplus=3.12.8 blast parallel -y">
               <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
               <pre><code>conda config --add channels conda-forge
 conda config --add channels bioconda
@@ -235,8 +202,7 @@ conda install -c bioconda -c conda-forge abritamr ncbi-amrfinderplus=3.12.8 blas
               <pre><code>amrfinder -u</code></pre>
             </div>
             <p>O DB será baixado em <span class="kbd">$CONDA_PREFIX/share/amrfinderplus/data/&lt;DATA&gt;</span>. Para usar sem passar <span class="kbd">-d</span> sempre:</p>
-            <div class="code" data-copy="export AMRFINDER_DB=$CONDA_PREFIX/share/amrfinderplus/data/2024-07-22.1/
-# adicione ao ~/.bashrc se quiser tornar permanente">
+            <div class="code" data-copy="export AMRFINDER_DB=$CONDA_PREFIX/share/amrfinderplus/data/2024-07-22.1/\n# adicione ao ~/.bashrc se quiser tornar permanente">
               <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
               <pre><code>export AMRFINDER_DB=$CONDA_PREFIX/share/amrfinderplus/data/2024-07-22.1/
 # adicione ao ~/.bashrc se quiser tornar permanente</code></pre>
@@ -245,21 +211,14 @@ conda install -c bioconda -c conda-forge abritamr ncbi-amrfinderplus=3.12.8 blas
         </div>
         <h3>Executar abritAMR em contigs FASTA (ex.: Pseudomonas putida)</h3>
         <p>Problema comum: caminhos com espaços (ex.: <span class="kbd">/mnt/d/OneDrive/ALERTA/Felipe Lei/...</span>). Solução robusta: criar <em>symlinks</em> em uma pasta sem espaços e gerar a lista <span class="kbd">contigs.txt</span>.</p>
-        <div class="code" data-copy="mkdir -p $HOME/PSPU_fasta_links
-ln -s /mnt/d/OneDrive/ALERTA/Felipe\ Lei/PSPU/Genomas\ PSPU/FASTA\ juntos/*.fasta $HOME/PSPU_fasta_links/
-cd $HOME/PSPU_fasta_links
-ls *.fasta | awk -v path=&quot;$HOME/PSPU_fasta_links/&quot; '{print $1 &quot;\t&quot; path $1}' > contigs.txt
-# (Opcional) evitar conflito de nomes de diretório de saída
-awk '{print &quot;sample_&quot; $1 &quot;\t&quot; $2}' contigs.txt > contigs_updated.txt
-# Rodar com a lista gerada
-abritamr run --contigs $HOME/PSPU_fasta_links/contigs_updated.txt --prefix PSPU_analysis">
+        <div class="code" data-copy="mkdir -p $HOME/PSPU_fasta_links\nln -s /mnt/d/OneDrive/ALERTA/Felipe\ Lei/PSPU/Genomas\ PSPU/FASTA\ juntos/*.fasta $HOME/PSPU_fasta_links/\ncd $HOME/PSPU_fasta_links\nls *.fasta | awk -v path="$HOME/PSPU_fasta_links/" '{print $1 "\t" path $1}' > contigs.txt\n# (Opcional) evitar conflito de nomes de diretório de saída\nawk '{print "sample_" $1 "\t" $2}' contigs.txt > contigs_updated.txt\n# Rodar com a lista gerada\nabritamr run --contigs $HOME/PSPU_fasta_links/contigs_updated.txt --prefix PSPU_analysis">
           <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
           <pre><code>mkdir -p $HOME/PSPU_fasta_links
 ln -s /mnt/d/OneDrive/ALERTA/Felipe\ Lei/PSPU/Genomas\ PSPU/FASTA\ juntos/*.fasta $HOME/PSPU_fasta_links/
 cd $HOME/PSPU_fasta_links
-ls *.fasta | awk -v path="$HOME/PSPU_fasta_links/" '{print $1 "	" path $1}' > contigs.txt
+ls *.fasta | awk -v path="$HOME/PSPU_fasta_links/" '{print $1 "\t" path $1}' > contigs.txt
 # (Opcional) evitar conflito de nomes de diretório de saída
-awk '{print "sample_" $1 "	" $2}' contigs.txt > contigs_updated.txt
+awk '{print "sample_" $1 "\t" $2}' contigs.txt > contigs_updated.txt
 # Rodar com a lista gerada
 abritamr run --contigs $HOME/PSPU_fasta_links/contigs_updated.txt --prefix PSPU_analysis</code></pre>
         </div>
@@ -270,9 +229,7 @@ abritamr run --contigs $HOME/PSPU_fasta_links/contigs_updated.txt --prefix PSPU_
       <section id="contigs_symlink" class="card">
         <h2>6) Caminhos com espaços/acentos (ex.: “Área de Trabalho”)</h2>
         <p>Use aspas ou <span class="kbd">\</span> para escapar espaços/acentos ou, preferencialmente, <strong>symlinks</strong>:</p>
-        <div class="code" data-copy="# Exemplo copiando dois arquivos do Windows para uma pasta no WSL
-cp /mnt/d/OneDrive/Backup/Área\ de\ Trabalho/AMR.LIB $HOME/
-cp /mnt/d/OneDrive/Backup/Área\ de\ Trabalho/database_format_version.txt $HOME/">
+        <div class="code" data-copy="# Exemplo copiando dois arquivos do Windows para uma pasta no WSL\ncp /mnt/d/OneDrive/Backup/Área\ de\ Trabalho/AMR.LIB $HOME/\ncp /mnt/d/OneDrive/Backup/Área\ de\ Trabalho/database_format_version.txt $HOME/">
           <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
           <pre><code># Exemplo copiando dois arquivos do Windows para uma pasta no WSL
 cp /mnt/d/OneDrive/Backup/Área\ de\ Trabalho/AMR.LIB $HOME/
@@ -285,16 +242,7 @@ cp /mnt/d/OneDrive/Backup/Área\ de\ Trabalho/database_format_version.txt $HOME/
       <section id="spades" class="card">
         <h2>7) SPAdes / plasmidSPAdes</h2>
         <h3>Instalar SPAdes e adicionar ao PATH</h3>
-        <div class="code" data-copy="# Baixar e extrair
-wget https://cab.spbu.ru/files/release3.15.5/SPAdes-3.15.5-Linux.tar.gz
-tar -xzf SPAdes-3.15.5-Linux.tar.gz -C $HOME
-# (ex.: você já tinha /home/felipe/SPAdes-4.2.0-Linux/bin)
-# Adicionar ao PATH (sessão atual e permanente)
-export PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH
-echo 'export PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH' >> ~/.bashrc
-# Testar
-spades.py --version
-plasmidspades.py --help">
+        <div class="code" data-copy="# Baixar e extrair\nwget https://cab.spbu.ru/files/release3.15.5/SPAdes-3.15.5-Linux.tar.gz\ntar -xzf SPAdes-3.15.5-Linux.tar.gz -C $HOME\n# (ex.: você já tinha /home/felipe/SPAdes-4.2.0-Linux/bin)\n# Adicionar ao PATH (sessão atual e permanente)\nexport PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH\necho 'export PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH' >> ~/.bashrc\n# Testar\nspades.py --version\nplasmidspades.py --help">
           <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
           <pre><code># Baixar e extrair
 wget https://cab.spbu.ru/files/release3.15.5/SPAdes-3.15.5-Linux.tar.gz
@@ -308,7 +256,9 @@ spades.py --version
 plasmidspades.py --help</code></pre>
         </div>
         <h3>Executar plasmidSPAdes (leitura Illumina) – 1 ou várias bibliotecas</h3>
-        <div class="code" data-copy="# Pasta recomendada: trabalhar em diretório Linux, não em /mnt/
+        <div class="code" data-copy="# Pasta recomendada: trabalhar em diretório Linux, não em /mnt/\nmkdir -p $HOME/assemblies/PSPU && cd $HOME/assemblies/PSPU\n# Exemplo com uma biblioteca pareada\nplasmidspades.py --pe1-1 R1.fastq.gz --pe1-2 R2.fastq.gz -o out_plasmidspades --careful -t 16 -m 32\n\n# Múltiplas bibliotecas (repita índices)\nplasmidspades.py \\\n  --pe1-1 lib1_R1.fq.gz --pe1-2 lib1_R2.fq.gz \\\n  --pe2-1 lib2_R1.fq.gz --pe2-2 lib2_R2.fq.gz \\\n  --pe3-1 lib3_R1.fq.gz --pe3-2 lib3_R2.fq.gz \\\n  -o out_multi --careful -t 20 -m 48\n\n# Dicas\n# - Use caminhos /mnt/d/... apenas para leitura; copie para $HOME para melhor desempenho\n# - Saída principal: out_*/contigs.fasta (plasmid contigs)">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code># Pasta recomendada: trabalhar em diretório Linux, não em /mnt/
 mkdir -p $HOME/assemblies/PSPU && cd $HOME/assemblies/PSPU
 # Exemplo com uma biblioteca pareada
 plasmidspades.py --pe1-1 R1.fastq.gz --pe1-2 R2.fastq.gz -o out_plasmidspades --careful -t 16 -m 32
@@ -322,18 +272,6 @@ plasmidspades.py \
 
 # Dicas
 # - Use caminhos /mnt/d/... apenas para leitura; copie para $HOME para melhor desempenho
-# - Saída principal: out_*/contigs.fasta (plasmid contigs)">
-          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
-          <pre><code># Pasta recomendada: trabalhar em diretório Linux, não em /mnt/
-mkdir -p $HOME/assemblies/PSPU && cd $HOME/assemblies/PSPU
-# Exemplo com uma biblioteca pareada
-plasmidspades.py --pe1-1 R1.fastq.gz --pe1-2 R2.fastq.gz -o out_plasmidspades --careful -t 16 -m 32
-
-# Múltiplas bibliotecas (repita índices)
-plasmidspades.py   --pe1-1 lib1_R1.fq.gz --pe1-2 lib1_R2.fq.gz   --pe2-1 lib2_R1.fq.gz --pe2-2 lib2_R2.fq.gz   --pe3-1 lib3_R1.fq.gz --pe3-2 lib3_R2.fq.gz   -o out_multi --careful -t 20 -m 48
-
-# Dicas
-# - Use caminhos /mnt/d/... apenas para leitura; copie para $HOME para melhor desempenho
 # - Saída principal: out_*/contigs.fasta (plasmid contigs)</code></pre>
         </div>
       </section>
@@ -344,16 +282,7 @@ plasmidspades.py   --pe1-1 lib1_R1.fq.gz --pe1-2 lib1_R2.fq.gz   --pe2-1 lib2_R1
         <div class="grid">
           <div>
             <h3>Instalar (venv) + dependências</h3>
-            <div class="code" data-copy="sudo apt install -y git python3-venv
-cd $HOME
-git clone https://github.com/BCCDC-PHL/plasmid-screen.git
-cd plasmid-screen
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -U pip
-pip install -r requirements.txt
-# Dependências externas (via Conda é mais simples)
-conda install -c bioconda -c conda-forge prokka blast -y">
+            <div class="code" data-copy="sudo apt install -y git python3-venv\ncd $HOME\ngit clone https://github.com/BCCDC-PHL/plasmid-screen.git\ncd plasmid-screen\npython3 -m venv .venv\nsource .venv/bin/activate\npip install -U pip\npip install -r requirements.txt\n# Dependências externas (via Conda é mais simples)\nconda install -c bioconda -c conda-forge prokka blast -y">
               <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
               <pre><code>sudo apt install -y git python3-venv
 cd $HOME
@@ -369,9 +298,7 @@ conda install -c bioconda -c conda-forge prokka blast -y</code></pre>
           </div>
           <div>
             <h3>Uso básico</h3>
-            <div class="code" data-copy="plasmid-screen --help
-# Exemplo genérico
-plasmid-screen -i /caminho/para/contigs.fasta -o $HOME/plasmid_screen_out">
+            <div class="code" data-copy="plasmid-screen --help\n# Exemplo genérico\nplasmid-screen -i /caminho/para/contigs.fasta -o $HOME/plasmid_screen_out">
               <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
               <pre><code>plasmid-screen --help
 # Exemplo genérico
@@ -396,10 +323,7 @@ plasmid-screen -i /caminho/para/contigs.fasta -o $HOME/plasmid_screen_out</code>
           <pre><code>python3 /mnt/d/OneDrive/1PROJETO_CCIH_2023_2024/LAUDOS/HMB/extract_pdf_data.py</code></pre>
         </div>
         <h3>Definir pasta padrão dentro do script (exemplo)</h3>
-        <div class="code" data-copy="# Trecho Python (no seu script)
-import os
-os.chdir('/mnt/d/OneDrive/1PROJETO_CCIH_2023_2024/LAUDOS/HMB')
-# ou, se usar tkinter.filedialog, defina initialdir=...">
+        <div class="code" data-copy="# Trecho Python (no seu script)\nimport os\nos.chdir('/mnt/d/OneDrive/1PROJETO_CCIH_2023_2024/LAUDOS/HMB')\n# ou, se usar tkinter.filedialog, defina initialdir=...">
           <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
           <pre><code># Trecho Python (no seu script)
 import os
@@ -424,7 +348,7 @@ os.chdir('/mnt/d/OneDrive/1PROJETO_CCIH_2023_2024/LAUDOS/HMB')
   </main>
 
   <footer>
-    <div class="wrap">Guia WSL ➜ Bioinfo — <a href="https://github.com/felipeleii/guia-wsl-bioinfo" target="_blank" style="color:#93c5fd;">Ver repositório</a><br>Versão: 1.0.0 • Atualizado em 2025-08-20</div>
+    <div class="wrap">Guia unificado — pronto para copiar e colar. Atualize caminhos conforme sua pasta/usuário.</div>
   </footer>
 
   <script>

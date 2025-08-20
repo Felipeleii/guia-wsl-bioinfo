@@ -1,0 +1,16 @@
+name: Check HTML
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  htmlcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run htmlhint
+        uses: Cyb3r-Jak3/htmlhint-action@v3
+        with:
+          htmlhint_args: "index.html"
