@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ubuntu — Códigos atualizados | Guia WSL ➜ Bioinfo</title>
+  <meta name="description" content="Códigos atualizados para Ubuntu no guia WSL ➜ Bioinfo.">
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:title" content="Ubuntu — Códigos atualizados | Guia WSL ➜ Bioinfo">
+  <meta property="og:description" content="Códigos atualizados para Ubuntu no guia WSL ➜ Bioinfo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://felipeleii.github.io/guia-wsl-bioinfo/ubuntu.html">
+  <meta property="og:image" content="thumbnail.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    @media print {
+      .copy-btn, nav { display:none !important; }
+      a[href]:after { content: ""; }
+      body { background: #fff; color: #000; }
+    }
+    :root{ --bg:#0b0f17; --panel:#0e1624; --text:#e5e7eb; --muted:#9ca3af; --brand:#60a5fa; --brand2:#34d399; --border:#1f2937; --code:#0a1220; --accent:#a78bfa }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial; color:var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(96,165,250,.10), transparent 60%),
+                 radial-gradient(1000px 600px at 0% 110%, rgba(52,211,153,.10), transparent 60%), var(--bg)}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:rgba(11,15,23,.7);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 20px} h1{font-size:22px;margin:0} .muted{color:var(--muted)}
+    main{padding:20px} .container{max-width:1100px;margin:0 auto}
+    nav{position:sticky;top:66px;background:rgba(14,22,36,.65);border:1px solid var(--border);border-radius:14px;padding:10px;margin-bottom:16px}
+    nav a{color:var(--brand);text-decoration:none;margin-right:12px;display:inline-block;padding:6px 10px;border-radius:8px;border:1px solid transparent}
+    nav a:hover{border-color:#23314b;background:#0a1220}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.00));border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0 22px;box-shadow:0 12px 28px rgba(0,0,0,.25)}
+    .card h2{margin:6px 0 10px;font-size:20px} .card h3{margin:8px 0 8px;font-size:16px;color:#dbeafe}
+    .card p{color:var(--muted);margin:6px 0 12px}
+    .grid{display:grid;gap:14px} @media(min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .code{position:relative;border:1px solid #1c2740;background:linear-gradient(180deg,#0a1220,#0b1323);border-radius:12px;padding:12px 12px 10px;margin-top:10px;overflow:auto}
+    pre{margin:0;white-space:pre-wrap} code{color:#e7edf9;font-size:14px;line-height:1.55;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,"Liberation Mono","Courier New",monospace}
+    .copy-btn{position:absolute;top:8px;right:8px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:#0f172a;color:var(--text);cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+    .copy-btn:hover{transform:translateY(-1px);border-color:#2b3952}
+    .tip{display:flex;gap:10px;align-items:flex-start;background:#0a1220;border:1px dashed #26334f;padding:10px;border-radius:12px;color:#c7d2fe}
+    .ok{color:#86efac} .warn{color:#fca5a5} .kbd{padding:2px 6px;border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;background:#0e1522;color:var(--text);font-family:ui-monospace,Menlo,Consolas,monospace}
+    footer{color:var(--muted);text-align:center;padding:30px 10px;border-top:1px solid var(--border);margin-top:24px}
+    .actions {display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;}
+    .btn {padding:8px 12px;border:1px solid #334;border-radius:8px;background:#0f172a;color:#e5e7eb;text-decoration:none;cursor:pointer}
+    .btn:hover {opacity:.9}
+    .platform-bar{display:flex;gap:8px;margin-bottom:16px;padding:8px 0}
+    .platform-btn{padding:6px 12px;border:1px solid var(--border);border-radius:8px;background:rgba(14,22,36,.8);color:var(--text);text-decoration:none;font-size:14px;transition:.15s}
+    .platform-btn:hover{background:rgba(52,211,153,.1);border-color:var(--brand2)}
+    .platform-btn[aria-current="page"]{background:var(--brand2);color:#000;font-weight:600}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <div class="platform-bar" role="navigation" aria-label="Plataformas">
+        <a class="platform-btn" href="wsl.html">WSL</a>
+        <a class="platform-btn" href="ubuntu.html" aria-current="page">Ubuntu</a>
+        <a class="platform-btn" href="arch.html">Arch</a>
+      </div>
+      <h1>Ubuntu — Códigos atualizados</h1>
+      <div class="muted">Comandos e instruções específicas para Ubuntu "puro".</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="card">
+        <h2>Exemplos de comandos</h2>
+        <p>Substitua/adicione aqui os comandos atualizados para Ubuntu.</p>
+        <div class="code" data-copy="sudo apt update && sudo apt upgrade -y">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function copyBlock(btn){
+      const block = btn.closest('.code');
+      const content = block?.getAttribute('data-copy');
+      if(!content) return;
+      navigator.clipboard.writeText(content.replace(/\n/g,'\n')).then(()=>{
+        const original = btn.innerHTML;
+        btn.innerHTML = "✅ Copiado";
+        setTimeout(()=>{ btn.innerHTML = original; }, 1400);
+      });
+    }
+  </script>
+
+</body>
+</html>
