@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WSL — Códigos atualizados | Guia WSL ➜ Bioinfo</title>
+  <meta name="description" content="Códigos atualizados para WSL no guia WSL ➜ Bioinfo.">
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:title" content="WSL — Códigos atualizados | Guia WSL ➜ Bioinfo">
+  <meta property="og:description" content="Códigos atualizados para WSL no guia WSL ➜ Bioinfo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://felipeleii.github.io/guia-wsl-bioinfo/wsl.html">
+  <meta property="og:image" content="thumbnail.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    @media print { .copy-btn, nav, .platform-bar { display:none !important; } a[href]:after { content: ""; } body { background:#fff; color:#000; } }
+    :root{ --bg:#0b0f17; --panel:#0e1624; --text:#e5e7eb; --muted:#9ca3af; --brand:#60a5fa; --brand2:#34d399; --border:#1f2937; --code:#0a1220; --accent:#a78bfa }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial; color:var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(96,165,250,.10), transparent 60%),
+                 radial-gradient(1000px 600px at 0% 110%, rgba(52,211,153,.10), transparent 60%), var(--bg)}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:rgba(11,15,23,.7);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 20px}
+    h1{font-size:22px;margin:0}
+    .muted{color:var(--muted)}
+    main{padding:20px} .container{max-width:1100px;margin:0 auto}
+    .platform-bar { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 12px; }
+    .platform-btn { padding:6px 10px; border:1px solid var(--border); border-radius:8px; background:#0f172a; color:#e5e7eb; text-decoration:none }
+    .platform-btn:hover { border-color:#2b3952; background:#0a1220 }
+    .platform-btn[aria-current="page"] { border-color: var(--brand); color: var(--brand); box-shadow: 0 0 0 2px rgba(96,165,250,.15) inset; }
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.00));border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0 22px;box-shadow:0 12px 28px rgba(0,0,0,.25)}
+    .card h2{margin:6px 0 10px;font-size:20px}
+    .card h3{margin:8px 0 8px;font-size:16px;color:#dbeafe}
+    .card p{color:var(--muted);margin:6px 0 12px}
+    .code{position:relative;border:1px solid #1c2740;background:linear-gradient(180deg,#0a1220,#0b1323);border-radius:12px;padding:12px 12px 10px;margin-top:10px;overflow:auto}
+    pre{margin:0;white-space:pre-wrap} code{color:#e7edf9;font-size:14px;line-height:1.55;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,"Liberation Mono","Courier New",monospace}
+    .copy-btn{position:absolute;top:8px;right:8px;padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:#0f172a;color:var(--text);cursor:pointer;font-size:12px}
+    .copy-btn:hover{transform:translateY(-1px);border-color:#2b3952}
+    .tip{display:flex;gap:10px;align-items:flex-start;background:#0a1220;border:1px dashed #26334f;padding:10px;border-radius:12px;color:#c7d2fe}
+    .kbd{padding:2px 6px;border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;background:#0e1522;color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,"Liberation Mono","Courier New",monospace}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="platform-bar" role="navigation" aria-label="Plataformas">
+        <a class="platform-btn" href="wsl.html" aria-current="page">WSL</a>
+        <a class="platform-btn" href="ubuntu.html">Ubuntu</a>
+        <a class="platform-btn" href="arch.html">Arch</a>
+      </div>
+      <h1>WSL — Códigos atualizados</h1>
+      <div class="muted">Passo a passo no Windows 11 + WSL2, com comandos prontos e botões de copiar.</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="card">
+        <h2>1) Instalar/atualizar o WSL (PowerShell como Administrador)</h2>
+        <div class="code" data-copy="wsl --install -d Ubuntu-24.04
+wsl --set-default-version 2
+wsl --update
+wsl --status
+wsl -l -v">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>wsl --install -d Ubuntu-24.04
+wsl --set-default-version 2
+wsl --update
+wsl --status
+wsl -l -v</code></pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2) Configurar /etc/wsl.conf (systemd + montagens)</h2>
+        <p>Dentro do Ubuntu (WSL):</p>
+        <div class="code" data-copy='printf "[boot]
+systemd=true
+
+[automount]
+enabled=true
+root=/mnt/
+options=&quot;metadata,umask=22,fmask=11,uid=1000,gid=1000&quot;
+" | sudo tee /etc/wsl.conf'>
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>printf "[boot]
+systemd=true
+
+[automount]
+enabled=true
+root=/mnt/
+options="metadata,umask=22,fmask=11,uid=1000,gid=1000"
+" | sudo tee /etc/wsl.conf</code></pre>
+        </div>
+        <p>Reinicie o WSL (no Windows):</p>
+        <div class="code" data-copy="wsl --shutdown">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>wsl --shutdown</code></pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3) Preparar o Ubuntu dentro do WSL</h2>
+        <div class="code" data-copy="sudo apt update && sudo apt upgrade -y && sudo apt install -y build-essential git curl wget unzip parallel pigz python3-venv python3-tk">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>sudo apt update && sudo apt upgrade -y && sudo apt install -y build-essential git curl wget unzip parallel pigz python3-venv python3-tk</code></pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4) Instalar Miniforge (Conda) e ativar</h2>
+        <div class="code" data-copy="wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge3
+$HOME/miniforge3/bin/conda init bash
+exec bash">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh -b -p $HOME/miniforge3
+$HOME/miniforge3/bin/conda init bash
+exec bash</code></pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>5) abritAMR + AMRFinderPlus (Conda) e atualização do DB</h2>
+        <div class="code" data-copy="conda config --add channels conda-forge
+conda config --add channels bioconda
+conda create -n abritamr python=3.12 -y
+conda activate abritamr
+conda install -c bioconda -c conda-forge abritamr ncbi-amrfinderplus=3.12.8 blast parallel -y
+amrfinder -u
+export AMRFINDER_DB=$(ls -d $CONDA_PREFIX/share/amrfinderplus/data/* | sort | tail -n1)
+echo 'export AMRFINDER_DB=$(ls -d $CONDA_PREFIX/share/amrfinderplus/data/* | sort | tail -n1)' >> ~/.bashrc">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>conda config --add channels conda-forge
+conda config --add channels bioconda
+conda create -n abritamr python=3.12 -y
+conda activate abritamr
+conda install -c bioconda -c conda-forge abritamr ncbi-amrfinderplus=3.12.8 blast parallel -y
+amrfinder -u
+export AMRFINDER_DB=$(ls -d $CONDA_PREFIX/share/amrfinderplus/data/* | sort | tail -n1)
+echo 'export AMRFINDER_DB=$(ls -d $CONDA_PREFIX/share/amrfinderplus/data/* | sort | tail -n1)' >> ~/.bashrc</code></pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>6) Caminhos com espaços (OneDrive etc.): use symlinks</h2>
+        <div class="code" data-copy="mkdir -p $HOME/contigs_links
+ln -s /mnt/d/OneDrive/SEU/CAMINHO/COM\ ESPAÇOS/*.fasta $HOME/contigs_links/
+cd $HOME/contigs_links
+ls *.fasta | awk -v path=&quot;$PWD/&quot; '{print $1 &quot;\t&quot; path $1}' > contigs.txt
+abritamr run --contigs $PWD/contigs.txt --prefix ANALISE_AMR">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>mkdir -p $HOME/contigs_links
+ln -s /mnt/d/OneDrive/SEU/CAMINHO/COM\ ESPAÇOS/*.fasta $HOME/contigs_links/
+cd $HOME/contigs_links
+ls *.fasta | awk -v path="$PWD/" '{print $1 "\t" path $1}' > contigs.txt
+abritamr run --contigs $PWD/contigs.txt --prefix ANALISE_AMR</code></pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>7) SPAdes / plasmidSPAdes</h2>
+        <div class="code" data-copy="wget https://cab.spbu.ru/files/release3.15.5/SPAdes-3.15.5-Linux.tar.gz
+tar -xzf SPAdes-3.15.5-Linux.tar.gz -C $HOME
+export PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH
+echo 'export PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH' >> ~/.bashrc
+spades.py --version && plasmidspades.py --help">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>wget https://cab.spbu.ru/files/release3.15.5/SPAdes-3.15.5-Linux.tar.gz
+tar -xzf SPAdes-3.15.5-Linux.tar.gz -C $HOME
+export PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH
+echo 'export PATH=$HOME/SPAdes-3.15.5-Linux/bin:$PATH' >> ~/.bashrc
+spades.py --version && plasmidspades.py --help</code></pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>8) plasmid-screen (venv) + dependências</h2>
+        <div class="code" data-copy="sudo apt install -y git python3-venv
+cd $HOME
+git clone https://github.com/BCCDC-PHL/plasmid-screen.git
+cd plasmid-screen
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+conda install -c bioconda -c conda-forge prokka blast -y
+plasmid-screen --help">
+          <button class="copy-btn" onclick="copyBlock(this)">Copiar</button>
+          <pre><code>sudo apt install -y git python3-venv
+cd $HOME
+git clone https://github.com/BCCDC-PHL/plasmid-screen.git
+cd plasmid-screen
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+conda install -c bioconda -c conda-forge prokka blast -y
+plasmid-screen --help</code></pre>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function copyBlock(btn){
+      const block = btn.closest('.code');
+      const content = block?.getAttribute('data-copy');
+      if(!content) return;
+      navigator.clipboard.writeText(content.replace(/\n/g,'\n')).then(()=>{
+        const original = btn.innerHTML;
+        btn.innerHTML = "✅ Copiado";
+        setTimeout(()=>{ btn.innerHTML = original; }, 1400);
+      });
+    }
+  </script>
+</body>
+</html>
