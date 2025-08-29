@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run htmlhint
-        uses: Cyb3r-Jak3/htmlhint-action@v3
+      - name: Run HTMLHint
+        uses: sibiraj-s/action-htmlhint@v3
         with:
-          htmlhint_args: "index.html"
+          files: "index.html"
